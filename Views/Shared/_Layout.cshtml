@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - NombreProyecto</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<body>
+    <header>
+    <button id="boton" onclick="location.href='@Url.Action("index", "Home")'">Home</button> 
+    </header>
+
+    <main role="main">
+        @RenderBody()
+        <div id="countdown">15:00</div>
+    </main>
+
+    <footer>
+        &copy; @DateTime.Now.Year - Massaccesi / Blaser / Garcia / Varela / Berakla !
+    </footer>
+
+    <script>
+    let timeLeft = 4 * 60;
+
+    function startCountdown() {
+        const countdownElement = document.getElementById("countdown");
+
+        const interval = setInterval(() => {
+            // Calcula minutos y segundos restantes
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+
+            // Muestra en formato mm:ss
+            countdownElement.innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            // Disminuye el tiempo restante en 1 segundo
+            timeLeft--;
+
+            // Si el contador llega a 0, detén el temporizador
+            if (timeLeft < 0) {
+                clearInterval(interval);
+                countdownElement.innerText = "SE TE AGOTO EL TIEMPO ! NO LOGRASTE ESCAPAR !";
+            }
+        }, 1000); // Intervalo de 1 segundo
+    }
+
+    // Inicia el contador cuando la página cargue
+    window.onload = startCountdown;
+</script>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

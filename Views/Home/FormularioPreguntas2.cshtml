@@ -1,0 +1,71 @@
+@{
+    ViewData["Title"] = "Formulario de Preguntas";
+}
+
+<form id="quizForm">
+
+    <h3>En esta media seccion vas a tener que responder DOS preguntas sobre IaaS , en caso que respondas bien las dos preguntas, automaticamente vas a recibir un codigo que deberas guardar para el final de las salas.</h3>
+    <!-- Pregunta 1 -->
+    <div>
+        <label for="question_0">Pregunta 1: Me utilizas para dividir una sola máquina física en varias máquinas virtuales, cada una funcionando como un sistema independiente. ¿Qué soy? </label>
+        <input type="text" id="question_0" name="question_0" data-answer="Virtualizacion" />
+        <span id="feedback_0" class="feedback"></span>
+    </div>
+
+    <!-- Pregunta 2 -->
+    <div>
+        <label for="question_1">Pregunta 2: Me necesitas para crear y manejar máquinas virtuales, y soy fundamental para los servicios de IaaS. Sin mí, no habría separación entre sistemas. ¿Quién soy? </label>
+        <input type="text" id="question_1" name="question_1" data-answer="Hypervisor" />
+        <span id="feedback_1" class="feedback"></span>
+    </div>
+
+    <!-- Botón para validar respuestas -->
+    <button type="button" onclick="validateAnswers()">Validar Respuestas</button>
+
+    <!-- Sección para mostrar el código final -->
+    <div id="completionCode" style="display: none; margin-top: 20px;">
+        <strong>Digito de completacion:</strong> 4
+    </div>
+
+    <!-- Botón para avanzar a FormularioPreguntas2, solo se habilita si todas las respuestas son correctas -->
+    <button type="button" id="advanceButton" onclick="advanceToNextForm()" style="display: none; margin-top: 20px;">Avanzar</button>
+</form>
+
+<script>
+    function validateAnswers() {
+        let allCorrect = true;
+
+        for (let i = 0; i < 2; i++) {
+            const input = document.getElementById(`question_${i}`);
+            const feedback = document.getElementById(`feedback_${i}`);
+            const answer = input.dataset.answer;
+
+            // Solo muestra "Incorrecto" si hay un valor ingresado y es incorrecto
+            if (input.value) {
+                if (input.value.toLowerCase() === answer.toLowerCase()) {
+                    feedback.innerText = "Correcto";
+                    feedback.style.color = "green";
+                } else {
+                    feedback.innerText = "Incorrecto. Inténtalo de nuevo.";
+                    feedback.style.color = "red";
+                    allCorrect = false;
+                }
+            } else {
+                feedback.innerText = ""; // Limpia el mensaje si el campo está vacío
+                allCorrect = false;
+            }
+        }
+
+        // Si todas las respuestas son correctas, muestra la alerta y el código de completación, habilita el botón "Avanzar"
+        if (allCorrect) {
+            alert("¡Has completado todas las respuestas correctamente!");
+            document.getElementById("completionCode").style.display = "block";
+            document.getElementById("advanceButton").style.display = "inline-block";
+        }
+    }
+
+    // Función para redirigir a la nueva vista
+    function advanceToNextForm() {
+        window.location.href = '@Url.Action("FormularioPreguntas3", "Home")';
+    }
+</script>

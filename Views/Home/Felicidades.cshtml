@@ -1,0 +1,30 @@
+@{
+    ViewData["Title"] = "Felicidades";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+
+
+        <img src="../img/felicidades.jpg" alt="felicidades" width="100%" height="auto">
+        <button type="button" id="advanceButton" onclick="advanceToIndex()" style="display: none; margin-top: 20px;">¡¡¡ ESCAPAR !!!</button>
+
+
+<script>
+
+    function advanceToNextForm() {
+        window.location.href = '@Url.Action("Felicidades", "Home")';
+    }
+        function advanceToIndex() {
+        window.location.href = '@Url.Action("Index", "Home")';
+    }
+
+</script>
+
+</body>
+</html>

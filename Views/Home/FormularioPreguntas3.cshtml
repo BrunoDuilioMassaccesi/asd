@@ -1,0 +1,71 @@
+@{
+    ViewData["Title"] = "Formulario de Preguntas";
+}
+
+<form id="quizForm">
+
+    <h3>Felicidades, estas en la ultima parte de esta sala de escape, en este caso vas a tener que responder DOS preguntas sobre PaaS, en caso de que las respondas bien te va a dar el ultimo digito de la clave para probar suerte en la ultima puerta donde si ingresas bien la clave lograras salir de esta sala, buena suerte !</h3>
+    <!-- Pregunta 1 -->
+    <div>
+        <label for="question_0">Pregunta 1: ¿qué componente de la infraestructura permite desplegar aplicaciones sin gestionar máquinas virtuales o servidores físicos? </label>
+        <input type="text" id="question_0" name="question_0" data-answer="Contenedor" />
+        <span id="feedback_0" class="feedback"></span>
+    </div>
+
+    <!-- Pregunta 2 -->
+    <div>
+        <label for="question_1">Pregunta 2: ¿Qué término describe la capacidad de una plataforma PaaS para ajustar automáticamente los recursos en función del tráfico? </label>
+        <input type="text" id="question_1" name="question_1" data-answer="Escalabilidad" />
+        <span id="feedback_1" class="feedback"></span>
+    </div>
+
+    <!-- Botón para validar respuestas -->
+    <button type="button" onclick="validateAnswers()">Validar Respuestas</button>
+
+    <!-- Sección para mostrar el código final -->
+    <div id="completionCode" style="display: none; margin-top: 20px;">
+        <strong>Digito de completacion:</strong> 1
+    </div>
+
+    <!-- Botón para avanzar a FormularioPreguntas2, solo se habilita si todas las respuestas son correctas -->
+    <button type="button" id="advanceButton" onclick="advanceToNextForm()" style="display: none; margin-top: 20px;">Avanzar</button>
+</form>
+
+<script>
+    function validateAnswers() {
+        let allCorrect = true;
+
+        for (let i = 0; i < 2; i++) {
+            const input = document.getElementById(`question_${i}`);
+            const feedback = document.getElementById(`feedback_${i}`);
+            const answer = input.dataset.answer;
+
+            // Solo muestra "Incorrecto" si hay un valor ingresado y es incorrecto
+            if (input.value) {
+                if (input.value.toLowerCase() === answer.toLowerCase()) {
+                    feedback.innerText = "Correcto";
+                    feedback.style.color = "green";
+                } else {
+                    feedback.innerText = "Incorrecto. Inténtalo de nuevo.";
+                    feedback.style.color = "red";
+                    allCorrect = false;
+                }
+            } else {
+                feedback.innerText = ""; // Limpia el mensaje si el campo está vacío
+                allCorrect = false;
+            }
+        }
+
+        // Si todas las respuestas son correctas, muestra la alerta y el código de completación, habilita el botón "Avanzar"
+        if (allCorrect) {
+            alert("¡Has completado todas las respuestas correctamente!");
+            document.getElementById("completionCode").style.display = "block";
+            document.getElementById("advanceButton").style.display = "inline-block";
+        }
+    }
+
+    // Función para redirigir a la nueva vista
+    function advanceToNextForm() {
+        window.location.href = '@Url.Action("Terminado", "Home")';
+    }
+</script>

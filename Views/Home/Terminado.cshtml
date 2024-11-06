@@ -1,0 +1,48 @@
+@{
+    ViewData["Title"] = "Formulario de Preguntas";
+}
+
+<form id="quizForm">
+    <h3>UFFF, fue difícil llegar hasta acá, ¿no? Bueno, espero que tengas en mente el conjunto de números que te dimos a medida que pasabas por la sala, porque si no, tendrás que arrancar de nuevo :(:(:(:( ! Si lo tienes en mente, ingrésalo aquí debajo ...</h3>
+    
+    <!-- Pregunta -->
+    <div>
+        <label for="question_0">Código Final Para Escapar:</label>
+        <input type="text" id="question_0" name="question_0" data-answer="241" />
+        <span id="feedback_0" class="feedback"></span>
+    </div>
+
+    <!-- Botón para validar respuestas -->
+    <button type="button" onclick="validateAnswers()">Validar Respuestas</button>
+
+    <!-- Botón para avanzar, solo visible si la respuesta es correcta -->
+    <button type="button" id="advanceButton" onclick="advanceToNextForm()" style="display: none; margin-top: 20px;">¡¡¡ ESCAPAR !!!</button>
+</form>
+
+<script>
+    function validateAnswers() {
+        const input = document.getElementById("question_0");
+        const feedback = document.getElementById("feedback_0");
+        const answer = input.dataset.answer;
+
+        if (input.value.toLowerCase() === answer.toLowerCase()) {
+            feedback.innerText = "Correcto";
+            feedback.style.color = "green";
+            alert("¡FELICIDADEESSSSS, LOGRASTE SALIR DE LA SALA DE ESCAPE!!");
+            document.getElementById("advanceButton").style.display = "inline-block";
+        } else {
+            alert("Código incorrecto, deberás volver al principio.");
+            restart();
+        }
+    }
+
+    // Función para redirigir a la misma vista en caso de error
+    function restart() {
+        window.location.href = '@Url.Action("FormularioPreguntas", "Home")';
+    }
+        // Función para redirigir a una nueva vista si la respuesta es correcta
+    function advanceToNextForm() {
+        window.location.href = '@Url.Action("Felicidades", "Home")';
+    }
+
+</script>
